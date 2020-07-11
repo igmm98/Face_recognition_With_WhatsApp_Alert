@@ -75,8 +75,11 @@ nombres_encoding = [
 #_______________________CAPTURA DE VIDEO OPENCV_______________________
 cam = cv2.VideoCapture(0)
 
+
 texto = cv2.FONT_HERSHEY_COMPLEX
 reduc = 5
+
+countR = 0
 
 while True:
 
@@ -123,9 +126,12 @@ while True:
                     contadorDesconocidos+=1
                 nombres_rostros.append(nom)
             #_____________________ALERTAS DE INTRUSO______________________________________
-            if contadorDesconocidos>10:
+            if contadorDesconocidos>5:
                 subprocess.run('python WhatsappMessage.py', shell=True)
                 messagebox.showinfo('ALERTA', 'No se ha podido detectar un usuario registrado')
+                contadorDesconocidos = 0
+                cv2.imwrite('desconocido_{}.jpg'.format(countR), img)
+                countR+=1
                 cv2.destroyAllWindows()
 
             #_______________________RECTANGULO Y NOMBRE___________________________________
